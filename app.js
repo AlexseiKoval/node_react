@@ -15,7 +15,42 @@ const sequelize = new Sequelize("node", "root", "root", {
         timestamps: false
     }
 });
+ //*** */
+const Product = sequelize.define("product", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  price: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
+});
  
+const Company = sequelize.define("company", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
+Company.hasMany(Product);
+ 
+sequelize.sync({force:false}).then(()=>{
+  console.log("Tables have been created");
+}).catch(err=>console.log(err));
+//
 app.use(function (request, response, next) {
    console.log(request)
    // response.send("<h2>Hello</h2>");
@@ -26,4 +61,4 @@ app.get("/", function(request, response){
     response.send("<h2>Привет Express!</h2>");
 });
 
-app.listen(3000);
+app.listen(5000);
